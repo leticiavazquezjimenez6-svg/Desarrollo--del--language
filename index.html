@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eloquentia Junior | Vanguardia en Desarrollo del Lenguaje</title>
+    <meta name="description" content="Centro especializado en neurodesarrollo y lenguaje infantil para pacientes exclusivos. Enfoque clínico y académico.">
+
+    <!-- Tailwind CSS (Framework de Diseño) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configuración personalizada de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#1A2b3C',    /* Azul profundo, académico */
+                            gold: '#C5A065',    /* Dorado mate, lujo */
+                            cream: '#F9F7F2',   /* Fondo suave */
+                            grey: '#8A8D91',    /* Texto secundario */
+                            sage: '#E3E8E6'     /* Acentos sutiles */
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(26, 43, 60, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos personalizados adicionales */
+        body {
+            background-color: #F9F7F2;
+            color: #1A2b3C;
+        }
+        
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+        
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Efecto sutil en imágenes */
+        .image-hover-zoom {
+            overflow: hidden;
+        }
+        .image-hover-zoom img {
+            transition: transform 0.7s ease;
+        }
+        .image-hover-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Navegación Glassmorphism */
+        .glass-nav {
+            background: rgba(249, 247, 242, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(197, 160, 101, 0.2);
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navegación -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <!-- SVG Logo Abstracto: Cerebro/Diálogo -->
+                    <svg class="w-10 h-10 text-brand-gold" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 2.98 1 4.28L2 22l5.72-1c1.3.64 2.74 1 4.28 1 5.52 0 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/>
+                        <circle cx="16" cy="8" r="2" class="text-brand-navy" fill="#1A2b3C"/>
+                    </svg>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold tracking-wide text-brand-navy">ELOQUENTIA<span class="text-brand-gold">.</span></h1>
+                        <p class="text-[0.65rem] uppercase tracking-[0.2em] text-brand-grey font-bold">Institute for Junior Development</p>
+                    </div>
+                </div>
+
+                <!-- Menú Desktop -->
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="#filosofia" class="text-brand-navy hover:text-brand-gold text-sm font-bold uppercase tracking-widest transition">Filosofía</a>
+                    <a href="#servicios" class="text-brand-navy hover:text-brand-gold text-sm font-bold uppercase tracking-widest transition">Expertise</a>
+                    <a href="#equipo" class="text-brand-navy hover:text-brand-gold text-sm font-bold uppercase tracking-widest transition">Especialistas</a>
+                    <a href="#contacto" class="border border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest transition duration-300">Agendar Cita</a>
+                </div>
+
+                <!-- Botón Menú Móvil -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-brand-navy focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Móvil (Oculto) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-cream border-t border-brand-gold/20 absolute w-full">
+            <div class="px-4 pt-4 pb-8 space-y-4 shadow-lg">
+                <a href="#filosofia" class="block text-brand-navy font-serif text-lg">Filosofía</a>
+                <a href="#servicios" class="block text-brand-navy font-serif text-lg">Expertise</a>
+                <a href="#equipo" class="block text-brand-navy font-serif text-lg">Especialistas</a>
+                <a href="#contacto" class="block text-brand-gold font-bold uppercase text-sm tracking-widest">Agendar Consulta</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Imagen de Fondo con Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Niño leyendo concentrado" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-navy/90 to-brand-navy/40"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto fade-in-section">
+            <span class="block text-brand-gold text-sm md:text-base font-bold uppercase tracking-[0.3em] mb-4">Ciencia & Neurodesarrollo</span>
+            <h2 class="font-serif text-5xl md:text-7xl text-white font-medium leading-tight mb-6">
+                El arte del desarrollo del <br/> <i class="font-serif italic text-brand-gold">lenguaje</i> infantil.
+            </h2>
+            <p class="text-gray-300 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto leading-relaxed">
+                Un enfoque académico de vanguardia para potenciar las habilidades lingüísticas y cognitivas de sus hijos, en un entorno de exclusividad y rigor científico.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#contacto" class="bg-brand-gold text-white px-8 py-4 rounded-sm hover:bg-white hover:text-brand-navy transition duration-300 uppercase tracking-widest text-xs font-bold shadow-lg">
+                    Solicitar Evaluación
+                </a>
+                <a href="#filosofia" class="border border-white text-white px-8 py-4 rounded-sm hover:bg-white hover:text-brand-navy transition duration-300 uppercase tracking-widest text-xs font-bold">
+                    Descubrir Método
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección de Introducción / Filosofía -->
+    <section id="filosofia" class="py-24 bg-brand-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="fade-in-section">
+                    <div class="border-l-4 border-brand-gold pl-6 mb-8">
+                        <h3 class="font-serif text-4xl text-brand-navy mb-2">Más allá de la terapia tradicional.</h3>
+                        <p class="text-brand-grey italic">Ciencia aplicada al potencial humano.</p>
+                    </div>
+                    <p class="text-brand-navy/80 text-lg leading-relaxed mb-6 font-light">
+                        En <span class="font-bold">Eloquentia Junior</span>, entendemos el lenguaje no solo como una herramienta de comunicación, sino como la arquitectura fundamental del pensamiento cognitivo.
+                    </p>
+                    <p class="text-brand-navy/80 text-lg leading-relaxed mb-8 font-light">
+                        Nuestra metodología integra los últimos avances en <strong>neuroplasticidad</strong> y <strong>lingüística clínica</strong>. Trabajamos con un número limitado de pacientes para garantizar una atención hiper-personalizada, diseñada para familias que valoran la excelencia académica desde la primera infancia.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200&h=200" alt="Doctora Directora" class="w-16 h-16 rounded-full object-cover border-2 border-brand-gold">
+                        <div>
+                            <p class="font-serif text-brand-navy font-bold text-lg">Dra. Elena Valois, PhD</p>
+                            <p class="text-xs uppercase tracking-widest text-brand-grey">Directora Clínica</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative fade-in-section delay-200">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-brand-gold/20 z-0"></div>
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-brand-navy/10 z-0"></div>
+                    <div class="image-hover-zoom rounded-sm shadow-soft relative z-10">
+                        <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Terapia infantil minimalista" class="w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios / Expertise -->
+    <section id="servicios" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 fade-in-section">
+                <h2 class="text-brand-gold text-xs font-bold uppercase tracking-[0.3em] mb-3">Nuestros Pilares</h2>
+                <h3 class="font-serif text-4xl md:text-5xl text-brand-navy">Áreas de Especialización</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Servicio 1 -->
+                <div class="group fade-in-section">
+                    <div class="h-full p-10 bg-brand-cream hover:bg-brand-navy transition duration-500 rounded-sm shadow-sm group-hover:shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-5 transition">
+                            <i class="fas fa-brain text-9xl text-brand-navy group-hover:text-white"></i>
+                        </div>
+                        <div class="w-14 h-14 bg-brand-gold flex items-center justify-center rounded-full mb-8 group-hover:bg-white transition">
+                            <i class="fas fa-microscope text-white group-hover:text-brand-gold text-xl"></i>
+                        </div>
+                        <h4 class="font-serif text-2xl text-brand-navy mb-4 group-hover:text-white transition">Neurodiagnóstico</h4>
+                        <p class="text-brand-navy/70 leading-relaxed mb-6 group-hover:text-gray-300 font-light transition">
+                            Evaluaciones exhaustivas que combinan pruebas estandarizadas internacionales y observación clínica para mapear el perfil lingüístico y cognitivo único de su hijo.
+                        </p>
+                        <a href="#" class="text-brand-gold text-xs font-bold uppercase tracking-widest border-b border-brand-gold pb-1 group-hover:text-white group-hover:border-white">Leer más</a>
+                    </div>
+                </div>
+
+                <!-- Servicio 2 -->
+                <div class="group fade-in-section delay-100">
+                    <div class="h-full p-10 bg-brand-cream hover:bg-brand-navy transition duration-500 rounded-sm shadow-sm group-hover:shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-5 transition">
+                            <i class="fas fa-comments text-9xl text-brand-navy group-hover:text-white"></i>
+                        </div>
+                        <div class="w-14 h-14 bg-brand-navy flex items-center justify-center rounded-full mb-8 group-hover:bg-white transition">
+                            <i class="fas fa-comment-dots text-white group-hover:text-brand-navy text-xl"></i>
+                        </div>
+                        <h4 class="font-serif text-2xl text-brand-navy mb-4 group-hover:text-white transition">Intervención Clínica</h4>
+                        <p class="text-brand-navy/70 leading-relaxed mb-6 group-hover:text-gray-300 font-light transition">
+                            Sesiones one-on-one en suites privadas. Abordamos retrasos del habla, trastornos fonológicos y pragmática social con tecnología de asistencia y metodología lúdica avanzada.
+                        </p>
+                        <a href="#" class="text-brand-gold text-xs font-bold uppercase tracking-widest border-b border-brand-gold pb-1 group-hover:text-white group-hover:border-white">Leer más</a>
+                    </div>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="group fade-in-section delay-200">
+                    <div class="h-full p-10 bg-brand-cream hover:bg-brand-navy transition duration-500 rounded-sm shadow-sm group-hover:shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-5 transition">
+                            <i class="fas fa-users text-9xl text-brand-navy group-hover:text-white"></i>
+                        </div>
+                        <div class="w-14 h-14 bg-brand-gold flex items-center justify-center rounded-full mb-8 group-hover:bg-white transition">
+                            <i class="fas fa-graduation-cap text-white group-hover:text-brand-gold text-xl"></i>
+                        </div>
+                        <h4 class="font-serif text-2xl text-brand-navy mb-4 group-hover:text-white transition">Consultoría Parental</h4>
+                        <p class="text-brand-navy/70 leading-relaxed mb-6 group-hover:text-gray-300 font-light transition">
+                            Empoderamos a las familias con estrategias de estimulación de alto nivel para el hogar. Asesoramiento para selección escolar bilingüe y adaptación curricular.
+                        </p>
+                        <a href="#" class="text-brand-gold text-xs font-bold uppercase tracking-widest border-b border-brand-gold pb-1 group-hover:text-white group-hover:border-white">Leer más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frase Destacada / Parallax -->
+    <section class="py-32 bg-brand-navy relative flex items-center justify-center bg-fixed bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1516627145497-ae696335096c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+        <div class="absolute inset-0 bg-brand-navy/80"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center fade-in-section">
+            <i class="fas fa-quote-left text-brand-gold text-4xl mb-6"></i>
+            <h3 class="font-serif text-3xl md:text-5xl text-white leading-tight mb-8">
+                "Los límites de mi lenguaje significan los límites de mi mundo."
+            </h3>
+            <p class="text-brand-gold uppercase tracking-[0.2em] font-bold text-sm">— Ludwig Wittgenstein</p>
+        </div>
+    </section>
+
+    <!-- Equipo -->
+    <section id="equipo" class="py-24 bg-brand-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-section">
+                <div class="max-w-xl">
+                    <h2 class="text-brand-gold text-xs font-bold uppercase tracking-[0.3em] mb-3">El Consejo Clínico</h2>
+                    <h3 class="font-serif text-4xl text-brand-navy">Especialistas de Elite</h3>
+                </div>
+                <a href="#" class="hidden md:block text-brand-navy hover:text-brand-gold transition border-b border-brand-navy hover:border-brand-gold pb-1 text-sm font-bold uppercase tracking-widest">Ver todo el equipo</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Miembro 1 -->
+                <div class="fade-in-section">
+                    <div class="mb-6 overflow-hidden rounded-sm grayscale hover:grayscale-0 transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=600" alt="Especialista" class="w-full h-80 object-cover transform hover:scale-105 transition duration-700">
+                    </div>
+                    <h4 class="font-serif text-xl text-brand-navy">Dra. Elena Valois</h4>
+                    <p class="text-xs uppercase tracking-widest text-brand-gold mt-1">Neuropsicóloga</p>
+                </div>
+                <!-- Miembro 2 -->
+                <div class="fade-in-section delay-100">
+                    <div class="mb-6 overflow-hidden rounded-sm grayscale hover:grayscale-0 transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=600" alt="Especialista" class="w-full h-80 object-cover transform hover:scale-105 transition duration-700">
+                    </div>
+                    <h4 class="font-serif text-xl text-brand-navy">Dr. Marco Alessi</h4>
+                    <p class="text-xs uppercase tracking-widest text-brand-gold mt-1">Foniatra</p>
+                </div>
+                <!-- Miembro 3 -->
+                <div class="fade-in-section delay-200">
+                    <div class="mb-6 overflow-hidden rounded-sm grayscale hover:grayscale-0 transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=600" alt="Especialista" class="w-full h-80 object-cover transform hover:scale-105 transition duration-700">
+                    </div>
+                    <h4 class="font-serif text-xl text-brand-navy">Lic. Sofia Chen</h4>
+                    <p class="text-xs uppercase tracking-widest text-brand-gold mt-1">Lingüística Clínica</p>
+                </div>
+                <!-- Miembro 4 -->
+                <div class="fade-in-section delay-300">
+                    <div class="mb-6 overflow-hidden rounded-sm grayscale hover:grayscale-0 transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=600" alt="Especialista" class="w-full h-80 object-cover transform hover:scale-105 transition duration-700">
+                    </div>
+                    <h4 class="font-serif text-xl text-brand-navy">Dr. James Wright</h4>
+                    <p class="text-xs uppercase tracking-widest text-brand-gold mt-1">Psicopedagogía</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contacto" class="bg-white py-24 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Info -->
+                <div class="fade-in-section">
+                    <h2 class="font-serif text-4xl text-brand-navy mb-6">Inicie el viaje hacia la excelencia.</h2>
+                    <p class="text-brand-navy/70 mb-10 font-light text-lg">
+                        Para garantizar la calidad de nuestra atención, admitimos un número limitado de nuevos pacientes por trimestre. Por favor, complete el formulario para agendar una entrevista de admisión.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-map-marker-alt text-brand-gold mt-1 text-xl"></i>
+                            <div>
+                                <p class="font-serif text-brand-navy text-lg">Medical Arts Building, Piso 8</p>
+                                <p class="text-gray-500 font-light">Av. de las Américas 1500, Zona Financiera</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-phone text-brand-gold mt-1 text-xl"></i>
+                            <div>
+                                <p class="font-serif text-brand-navy text-lg">+52 (55) 1234-5678</p>
+                                <p class="text-gray-500 font-light">Lunes a Viernes, 9:00 - 18:00</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-envelope text-brand-gold mt-1 text-xl"></i>
+                            <div>
+                                <p class="font-serif text-brand-navy text-lg">admisiones@eloquentia.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario -->
+                <div class="bg-brand-cream p-10 rounded-sm shadow-soft fade-in-section">
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-brand-navy mb-2 font-bold">Nombre del Padre/Madre</label>
+                                <input type="text" class="w-full bg-white border-none p-4 text-brand-navy focus:ring-1 focus:ring-brand-gold placeholder-gray-300" placeholder="Nombre completo">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-brand-navy mb-2 font-bold">Teléfono</label>
+                                <input type="tel" class="w-full bg-white border-none p-4 text-brand-navy focus:ring-1 focus:ring-brand-gold placeholder-gray-300" placeholder="+52 ...">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-brand-navy mb-2 font-bold">Correo Electrónico</label>
+                            <input type="email" class="w-full bg-white border-none p-4 text-brand-navy focus:ring-1 focus:ring-brand-gold placeholder-gray-300" placeholder="correo@ejemplo.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-brand-navy mb-2 font-bold">Edad del paciente</label>
+                            <select class="w-full bg-white border-none p-4 text-brand-navy focus:ring-1 focus:ring-brand-gold">
+                                <option>Seleccionar...</option>
+                                <option>1 - 3 años</option>
+                                <option>4 - 6 años</option>
+                                <option>7 - 10 años</option>
+                                <option>11+ años</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-brand-navy mb-2 font-bold">Motivo de consulta</label>
+                            <textarea class="w-full bg-white border-none p-4 text-brand-navy focus:ring-1 focus:ring-brand-gold placeholder-gray-300 h-32" placeholder="Breve descripción..."></textarea>
+                        </div>
+                        <button type="button" class="w-full bg-brand-navy text-white font-bold uppercase tracking-[0.2em] py-4 hover:bg-brand-gold transition duration-300 text-sm">
+                            Solicitar Entrevista
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-navy text-white py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <span class="font-serif text-2xl font-bold">ELOQUENTIA.</span>
+            </div>
+            <div class="text-white/40 text-xs text-center md:text-right">
+                <p>&copy; 2023 Eloquentia Institute. Todos los derechos reservados.</p>
+                <div class="flex gap-4 justify-center md:justify-end mt-2">
+                    <a href="#" class="hover:text-white transition">Privacidad</a>
+                    <a href="#" class="hover:text-white transition">Términos</a>
+                    <a href="#" class="hover:text-white transition">Accesibilidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts para funcionalidad -->
+    <script>
+        // Funcionalidad Menú Móvil
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Intersection Observer para Animaciones Fade-In
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Animación solo una vez
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Cambio de estilo del Navbar al hacer scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.add('bg-white/95');
+                navbar.classList.remove('glass-nav');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.remove('bg-white/95');
+                navbar.classList.add('glass-nav');
+            }
+        });
+    </script>
+</body>
+</html>
